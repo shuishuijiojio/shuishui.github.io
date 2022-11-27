@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>水水</title>
+  
+  <subtitle>水水的博客</subtitle>
+  <link href="https://shuishuijiojio.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://shuishuijiojio.github.io/"/>
+  <updated>2022-11-24T15:10:24.845Z</updated>
+  <id>https://shuishuijiojio.github.io/</id>
+  
+  <author>
+    <name>水</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://shuishuijiojio.github.io/2022/11/25/java_%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/"/>
+    <id>https://shuishuijiojio.github.io/2022/11/25/java_%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/</id>
+    <published>2022-11-25T12:11:52.592Z</published>
+    <updated>2022-11-24T15:10:24.845Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+ </summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://shuishuijiojio.github.io/2022/11/25/hello-world/"/>
+    <id>https://shuishuijiojio.github.io/2022/11/25/hello-world/</id>
+    <published>2022-11-25T04:45:14.967Z</published>
+    <updated>2022-11-24T08:51:49.397Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
