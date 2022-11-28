@@ -432,8 +432,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/ospf/" class="post-category">
-                                ospf
+                            <a href="/categories/EBG-IBGP-OSPF%E5%BC%95%E5%85%A5BGP/" class="post-category">
+                                EBG-IBGP-OSPF引入BGP
                             </a>
                         
                     </div>
@@ -472,158 +472,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>华三 mstp-路由聚合-ospf-三层聚合 入门全套实验</title>
+  <title>H3C--IBGP对等体--EBGP对等体 OSPF引入BGP路由实验(带实验代码)</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
 <body class="stackedit">
-  <div class="stackedit__html"><p>1.配置图<br>
-<img src="https://img-blog.csdnimg.cn/3a2a5f6cf0844925b779131b056ce02d.png" alt="在这里插入图片描述"><br>
-2.先配置pc的ip地址</p>
-<p>第一台pc<br>
-<img src="https://img-blog.csdnimg.cn/dde108b6db0944b7af36fd95d4184ecb.png" alt="在这里插入图片描述"></p>
-<p>第二台pc</p>
-<p><img src="https://img-blog.csdnimg.cn/206caee60e8547a1b30da0607f97f3e4.png" alt="在这里插入图片描述"><br>
-3.打开交换机配置交换机的优先级选举根桥为sw1<br>
-<img src="https://img-blog.csdnimg.cn/9bfcf5016aff4daba4ff81fd79b227f6.png" alt="在这里插入图片描述"></p>
-<p>这里更改了交换机的优先级后,sw1成为了根乔</p>
-<p>4.配置交换机连接pc端接口为边缘接口<br>
-<img src="https://img-blog.csdnimg.cn/509b52df34374953bd090c683d253d9e.png" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/79fde01ad0474788964fdced2f95291c.png" alt="在这里插入图片描述"></p>
-<p>5.配置vlan<br>
-1.pc1 vlan10<br>
-2.pc2 vlan20<br>
-pc端为access口<br>
-交换机之间为trunk口并聚合</p>
-<p>[sw3]vlan 10 20<br>
-[sw3]int g 1/0/1<br>
-[sw3-GigabitEthernet1/0/1]p l a<br>
-[sw3-GigabitEthernet1/0/1]p a vlan 10</p>
-<p><img src="https://img-blog.csdnimg.cn/ffa3caa558b14d04b984cc25159ca8dd.png" alt="在这里插入图片描述"></p>
-<p>[sw2]vlan 10 20<br>
-[sw2]int g 1/0/1<br>
-[sw2-GigabitEthernet1/0/1]p l a<br>
-[sw2-GigabitEthernet1/0/1]p a vlan 20<br>
-<img src="https://img-blog.csdnimg.cn/b99bafb135e34056932eae1467b94066.png" alt="在这里插入图片描述"></p>
-<p>给pc口配置完vlan后 配置交换机之间的trunk口</p>
-<p>[sw3]int b 1<br>
-[sw3]int r g 1/0/2 g 1/0/4<br>
-[sw3-if-range]p l g 1<br>
-<img src="https://img-blog.csdnimg.cn/0a154468bd0e420ebf62249a6f3020ba.png" alt="在这里插入图片描述"><br>
-创建聚合后将链路加入进去</p>
-<blockquote>
-<p>这里代码我简写了 如果需要全部源码私信<br>
-这里我只放一台交换机的命令 其他除接口不同其他命令相同</p>
-</blockquote>
-<p>其他交换机同样操作</p>
-<p>sw3<br>
-<img src="https://img-blog.csdnimg.cn/9e34ce7122ef47199f6a867883a7e18d.png" alt="在这里插入图片描述"><br>
-sw2<br>
-<img src="https://img-blog.csdnimg.cn/d356f54c12fd471881ca8d88f2e37df6.png" alt="在这里插入图片描述"><br>
-sw1</p>
-<p><img src="https://img-blog.csdnimg.cn/904a24e772544cb4880b4df03e226de7.png" alt="在这里插入图片描述"><br>
-这里可以看见聚合都已经配置完成了</p>
-<p>6.配置交换机间的trunk<br>
-这里trunk口必须在聚合组上配置,因为我们已经把接口都加入了聚合组</p>
-<blockquote>
-<p>接下来也是一台交换机的配置命令,其他交换机同样配置</p>
-</blockquote>
-<p>[sw1]vlan 10 20<br>
-[sw1]interface Bridge-Aggregation  1<br>
-[sw1-Bridge-Aggregation1]port link-type trunk<br>
-[sw1-Bridge-Aggregation1]port trunk pvid vlan 10 20</p>
-<p>[sw1]int b 2<br>
-[sw1-Bridge-Aggregation2]p l t<br>
-[sw1-Bridge-Aggregation2]p t p vlan 10 20</p>
-<p>先配置vlan<br>
-<img src="https://img-blog.csdnimg.cn/16634325efff40298605a978da09fcab.png" alt="在这里插入图片描述"><br>
-进入聚合组1中<br>
-<img src="https://img-blog.csdnimg.cn/ac6e218f0bb44e94927ea13a5c70f05f.png" alt="在这里插入图片描述"><br>
-这样就是配置成功了<br>
-聚合组2也需要配置<br>
-<img src="https://img-blog.csdnimg.cn/3a77a920d5024c3e905d0a7d73fb85e3.png" alt="在这里插入图片描述"><br>
-sw2</p>
-<p><img src="https://img-blog.csdnimg.cn/702305ecb14745cf83ddd33bbc55945f.png" alt="在这里插入图片描述"></p>
-<p>sw3<br>
-<img src="https://img-blog.csdnimg.cn/1dc4e9ed0460458a903a2741d2420746.png" alt="在这里插入图片描述"><br>
-配置vlan10 20 的网关<br>
-<img src="https://img-blog.csdnimg.cn/12bd8444ae3a43f2ab2fb38a797c9483.png" alt="在这里插入图片描述"><br>
-命令–<br>
-[sw1]interface Vlan-interface 10<br>
-[sw1-Vlan-interface10]ip address 192.168.10.254 24</p>
-<p>[sw1]interface Vlan-interface 20<br>
-[sw1-Vlan-interface20]ip address 192.168.20.254 24</p>
-<p>[sw1]dis ip int br</p>
-<p><img src="https://img-blog.csdnimg.cn/4088be75a227452f8ea13fea84257113.png" alt="在这里插入图片描述"><br>
-这里可以查验一下是否配置成功</p>
-<p>7.配置三层聚合 三层ip地址<br>
-[sw1]int Route-Aggregation 4</p>
-<blockquote>
-<p>这里这个代码是配置三层聚合的命令与三层有差异</p>
-</blockquote>
-<p>首先打开交换机的三层功能<br>
-[sw1]int r g 1/0/5 g 1/0/6<br>
-[sw1-if-range]port link-mode route<br>
-<img src="https://img-blog.csdnimg.cn/9a90d896cde3462093ad4dab8a344005.png" alt="在这里插入图片描述"><br>
-在加入三层聚合当中去<br>
-[sw1-if-range]p l g 4<br>
-<img src="https://img-blog.csdnimg.cn/09c50fab17344b47822bd26e8764afc2.png" alt="在这里插入图片描述"><br>
-配置sr1上的聚合</p>
-<p>[sr1]int Route-Aggregation 4<br>
-[sr1]int r g 0/0/0 g 0/0/2<br>
-[sr1-if-range]p l g 4<br>
-<img src="https://img-blog.csdnimg.cn/43374c41ebc14a608f695dbf813f1500.png" alt="在这里插入图片描述"></p>
-<p>配置三层聚合的ip地址</p>
-<p>[sw1-Route-Aggregation4]ip address 10.0.0.1 24</p>
-<p>[sr1-Route-Aggregation4]ip ad 10.0.0.2 24</p>
-<p><img src="https://img-blog.csdnimg.cn/bed51ab01293438ba7267e6a036bd9fb.png" alt="在这里插入图片描述"><br>
-这里可以查看配置成功了</p>
-<p>查验可通信<br>
-<img src="https://img-blog.csdnimg.cn/8e062fcddc544751ab3b22fe008a0feb.png" alt="在这里插入图片描述"><br>
-8.配置ospf 共享路由<br>
-[sw1]interface LoopBack 0<br>
-[sw1-LoopBack0]ip ad 4.4.4.4 32</p>
-<p>sr1配置<br>
-<img src="https://img-blog.csdnimg.cn/dcbe50d63db84fbf93fe65302a0a63b0.png" alt="在这里插入图片描述"><br>
-sr2配置<br>
-<img src="https://img-blog.csdnimg.cn/a0bbf7620df14dc68afb9b2b693d1e23.png" alt="在这里插入图片描述"><br>
-sr3配置<br>
-<img src="https://img-blog.csdnimg.cn/57da7bce36284515bca7938064a71cb8.png" alt="在这里插入图片描述"></p>
-<p>接下来配置sr1-sr2-sr3间链路ip</p>
-<p>[sr1]int g 0/0/1<br>
-[sr1-GigabitEthernet0/0/1]ip ad 20.0.0.1 24</p>
-<p>[sr2]int g 0/0/0<br>
-[sr2-GigabitEthernet0/0/0]ip ad 20.0.0.2 24</p>
-<p>[sr2]int g 0/0/1<br>
-[sr2-GigabitEthernet0/0/1]ip ad 30.0.0.1 24</p>
-<p>[sr3]int g 0/0/0<br>
-[sr3-GigabitEthernet0/0/0]ip ad 30.0.0.2 24</p>
-<p>配置ospf<br>
-sw1<br>
-<img src="https://img-blog.csdnimg.cn/9a7b04ce264945b3be4255a72cd3a2b5.png" alt="在这里插入图片描述"><br>
-注意这里的掩码要写反掩码<br>
-sr1<br>
-<img src="https://img-blog.csdnimg.cn/bd3553117bf64538a1a28606d1c0c400.png" alt="在这里插入图片描述"><br>
-这里可以看见宣告ip后 立马就建立起了邻居关系<br>
-sr2<br>
-<img src="https://img-blog.csdnimg.cn/5cc48efeafc146e09ff99861aac83f6f.png" alt="在这里插入图片描述"><br>
-sr3<br>
-<img src="https://img-blog.csdnimg.cn/a6b2e95b1b3d4bce82278a9b059630e9.png" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/407fd0ad38484c0492e208504d8e900d.png" alt="在这里插入图片描述"><br>
-这个显示就是邻居关系建立成功了,可能有时候会比较慢,需要等待一会</p>
-<p>我们查看一下路由是否学习成功<br>
-<img src="https://img-blog.csdnimg.cn/27e80bda2941418d85cf71f1087098b8.png" alt="在这里插入图片描述"><br>
-在sr1上可以看见 来自各邻居学习来的路由</p>
-<p>sr2<br>
-<img src="https://img-blog.csdnimg.cn/dbee6f5265064901860a1f85ff50c7b6.png" alt="在这里插入图片描述"><br>
-sr3<br>
-<img src="https://img-blog.csdnimg.cn/2b9162b0472c4b239c71bff544f2608c.png" alt="在这里插入图片描述"><br>
-三台路由器都学习成功了</p>
-<p>最后一步查看与pc是否可以通信<br>
-<img src="https://img-blog.csdnimg.cn/1b91611daba94bd39a7027e362a4e2f7.png" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/3c124571a7ca425f929d472f2aadeae5.png" alt="在这里插入图片描述"><br>
-这里就实现了全网通</p>
-<p>全部实验完毕!!!</p>
+  <div class="stackedit__html"><h2><a id="BGP_0"></a>BGP实验</h2>
+<p><img src="https://img-blog.csdnimg.cn/d8d7e66e9f91413c8541fdbfd3da9831.png" alt="在这里插入图片描述"></p>
+<h2><a id="_EBGPIBGPOSPFBGP_3"></a>需求: 建立EBGP–IBGP邻居关系,OSPF引入BGP</h2>
+<h2><a id="_4"></a>实现全网通</h2>
+<p>首先配置IBGP底层的ospf互通</p>
+<h3><a id="MSR1_9"></a>MSR1的配置</h3>
+<p>[msr1]int l 0<br>
+[msr1-LoopBack0]ip ad 1.1.1.1 32<br>
+[msr1-LoopBack0]qu<br>
+[msr1]int g 0/1<br>
+[msr1-GigabitEthernet0/1]ip ad 10.0.0.1 24<br>
+[msr1-GigabitEthernet0/0]ip ad 40.0.0.1 24</p>
+<p>[msr1]ospf 1 router-id 1.1.1.1<br>
+[msr1-ospf-1]ar 0<br>
+[msr1-ospf-1-area-0.0.0.0]ne<br>
+[msr1-ospf-1-area-0.0.0.0]network 1.1.1.1 0.0.0.0<br>
+[msr1-ospf-1-area-0.0.0.0]ne<br>
+[msr1-ospf-1-area-0.0.0.0]network 10.0.0.0 0.0.0.255<br>
+[msr1-ospf-1-area-0.0.0.0]qu</p>
+<h3><a id="MSR2_25"></a>MSR2配置</h3>
+<p>[msr2]int l 0<br>
+[msr2-LoopBack0]ip ad 2.2.2.2 32<br>
+[msr2]int g 0/0<br>
+[msr2-GigabitEthernet0/0]ip ad 10.0.0.2 24<br>
+[msr2-GigabitEthernet0/0]qu<br>
+[msr2]int g 0/1<br>
+[msr2-GigabitEthernet0/1]ip ad 20.0.0.1 24<br>
+[msr2-GigabitEthernet0/1]qu<br>
+[msr2]ospf 1 router-id 2.2.2.2<br>
+[msr2-ospf-1]ar 0</p>
+<p>[msr2-ospf-1-area-0.0.0.0]network 2.2.2.2 0.0.0.0<br>
+[msr2-ospf-1-area-0.0.0.0]network 10.0.0.0 0.0.0.255<br>
+[msr2-ospf-1-area-0.0.0.0]network 20.0.0.0 0.0.0.255<br>
+[msr2-ospf-1-area-0.0.0.0]qu</p>
+<h3><a id="MSR3_42"></a>MSR3配置</h3>
+<p>[msr3]int l 0<br>
+[msr3-LoopBack0]ip ad 3.3.3.3 32<br>
+[msr3-LoopBack0]qu<br>
+[msr3]int g 0/0<br>
+[msr3-GigabitEthernet0/0]ip ad 20.0.0.2 24<br>
+[msr3-GigabitEthernet0/0]qu<br>
+[msr3]int g 0/1<br>
+[msr3-GigabitEthernet0/1]ip ad 30.0.0.1 24<br>
+[msr3-GigabitEthernet0/1]qu<br>
+[msr3]ospf 1 ro<br>
+[msr3]ospf 1 router-id 3.3.3.3<br>
+[msr3-ospf-1]ar 0<br>
+[msr3-ospf-1-area-0.0.0.0]network 3.3.3.3 0.0.0.0<br>
+[msr3-ospf-1-area-0.0.0.0]network 20.0.0.0 0.0.0.255</p>
+<p>查看ospf邻居建立是否成功<br>
+<img src="https://img-blog.csdnimg.cn/dc43f684490c4ac6acd2bfa308840d10.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/9ac968a37f144af4a9815295b398c6ad.png" alt="在这里插入图片描述"><br>
+这里可以看到都成功了<br>
+查看路由是否学习成功<br>
+<img src="https://img-blog.csdnimg.cn/2582cade68fb4338be308fc20627ad6f.png" alt="在这里插入图片描述"></p>
+<p>建立IBGP MSR1与MSR3的对等体关系<br>
+[msr1]bgp 300<br>
+[msr1-bgp-default]peer 3.3.3.3 as-number 300<br>
+[msr1-bgp-default]peer 3.3.3.3 connect-interface LoopBack 0</p>
+<p>[msr1-bgp-default]address-family ipv4<br>
+[msr1-bgp-default-ipv4]peer 3.3.3.3 enable<br>
+<img src="https://img-blog.csdnimg.cn/bb2cd7fbfd2e4af0baf9c1b33024eb05.png" alt="在这里插入图片描述"></p>
+<p>MSR3<br>
+[msr3]bgp 300<br>
+[msr3-bgp-default]peer 1.1.1.1 as-number 300<br>
+[msr3-bgp-default]peer 1.1.1.1 connect-interface LoopBack 0<br>
+[msr3-bgp-default]address-family ipv4<br>
+[msr3-bgp-default-ipv4]peer 1.1.1.1 enable<br>
+<img src="https://img-blog.csdnimg.cn/3b5fa3cb045b4ef49f680e760912b43a.png" alt="在这里插入图片描述"><br>
+这里对等体关系已经建立成功了</p>
+<p>开始建立EBGP</p>
+<p><img src="https://img-blog.csdnimg.cn/848bd99a997f4cd8b862daad9b142ce2.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/820b4c0ca4784e1f83cb312abc8a83ea.png" alt="在这里插入图片描述"><br>
+这里已经和MSR4建立EBGP邻居成功了<br>
+<img src="https://img-blog.csdnimg.cn/4131400188524209bb29297ed3bc2302.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/ada3d7b118134b7aa5b16623e72d4f16.png" alt="在这里插入图片描述"><br>
+MSR5<br>
+[msr5]bgp 100<br>
+[msr5-bgp-default]peer 40.0.0.1 as 300<br>
+[msr5-bgp-default]ad ipv4<br>
+[msr5-bgp-default-ipv4]peer 40.0.0.1 enable</p>
+<p><img src="https://img-blog.csdnimg.cn/bbfd74b729aa4ad980a76eeefc9427cf.png" alt="在这里插入图片描述"><br>
+跟MSR5的EBGP对等体也建立成功了</p>
+<p>接下来引入EBGP的路由信息到中间的MSR2的路由上<br>
+[msr1]ospf 1<br>
+[msr1-ospf-1]import-route bgp</p>
+<p>[msr3]ospf 1<br>
+[msr3-ospf-1]import-route bgp</p>
+<p><img src="https://img-blog.csdnimg.cn/f3e8d8c9a20a40bc86f6b72124dff81d.png" alt="在这里插入图片描述"><br>
+可以看到路由引入到了MSR2的路由表中<br>
+实现了全网通</p>
 </div>
 </body>
 
@@ -654,7 +598,7 @@ sr3<br>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://shuishuijiojio.github.io/2022/11/23/%E5%8D%8E%E4%B8%89%20mstp-%E8%B7%AF%E7%94%B1%E8%81%9A%E5%90%88-ospf-%E4%B8%89%E5%B1%82%E8%81%9A%E5%90%88%20%E5%85%A5%E9%97%A8%E5%85%A8%E5%A5%97%E5%AE%9E%E9%AA%8C/">https://shuishuijiojio.github.io/2022/11/23/%E5%8D%8E%E4%B8%89%20mstp-%E8%B7%AF%E7%94%B1%E8%81%9A%E5%90%88-ospf-%E4%B8%89%E5%B1%82%E8%81%9A%E5%90%88%20%E5%85%A5%E9%97%A8%E5%85%A8%E5%A5%97%E5%AE%9E%E9%AA%8C/</a>
+                    <a href="https://shuishuijiojio.github.io/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/">https://shuishuijiojio.github.io/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -867,13 +811,13 @@ sr3<br>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/11/23/java%E5%85%A5%E9%97%A8-%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1-%E7%B1%BB-%E6%96%B9%E6%B3%95-%E6%95%B0%E7%BB%84-%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E7%B2%BE%E7%BB%86%E8%AE%B2%E8%A7%A3/">
+                <a href="/2022/11/23/%E5%8D%8E%E4%B8%89%20mstp-%E8%B7%AF%E7%94%B1%E8%81%9A%E5%90%88-ospf-%E4%B8%89%E5%B1%82%E8%81%9A%E5%90%88%20%E5%85%A5%E9%97%A8%E5%85%A8%E5%A5%97%E5%AE%9E%E9%AA%8C/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="编程语言">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="网络通信">
                         
-                        <span class="card-title">编程语言</span>
+                        <span class="card-title">网络通信</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -890,8 +834,8 @@ sr3<br>
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    java
+                            <a href="/categories/ospf/" class="post-category">
+                                    ospf
                                 </a>
                             
                             
@@ -901,8 +845,8 @@ sr3<br>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
-                        <span class="chip bg-color">编程语言</span>
+                    <a href="/tags/H3C%E9%85%8D%E7%BD%AE/">
+                        <span class="chip bg-color">H3C配置</span>
                     </a>
                     
                 </div>
@@ -913,7 +857,7 @@ sr3<br>
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
                 <a href="/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/">
@@ -947,6 +891,7 @@ sr3<br>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     

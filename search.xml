@@ -65,6 +65,31 @@
     </entry>
     
     
+    
+    <entry>
+      <title>网络通信</title>
+      <link href="/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/"/>
+      <url>/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/</url>
+      
+        <content type="html"><![CDATA[<!DOCTYPE html><html><head>  <meta charset="utf-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>H3C--IBGP对等体--EBGP对等体 OSPF引入BGP路由实验(带实验代码)</title>  <link rel="stylesheet" href="https://stackedit.io/style.css" /></head><body class="stackedit">  <div class="stackedit__html"><h2><a id="BGP_0"></a>BGP实验</h2><p><img src="https://img-blog.csdnimg.cn/d8d7e66e9f91413c8541fdbfd3da9831.png" alt="在这里插入图片描述"></p><h2><a id="_EBGPIBGPOSPFBGP_3"></a>需求: 建立EBGP–IBGP邻居关系,OSPF引入BGP</h2><h2><a id="_4"></a>实现全网通</h2><p>首先配置IBGP底层的ospf互通</p><h3><a id="MSR1_9"></a>MSR1的配置</h3><p>[msr1]int l 0<br>[msr1-LoopBack0]ip ad 1.1.1.1 32<br>[msr1-LoopBack0]qu<br>[msr1]int g 0/1<br>[msr1-GigabitEthernet0/1]ip ad 10.0.0.1 24<br>[msr1-GigabitEthernet0/0]ip ad 40.0.0.1 24</p><p>[msr1]ospf 1 router-id 1.1.1.1<br>[msr1-ospf-1]ar 0<br>[msr1-ospf-1-area-0.0.0.0]ne<br>[msr1-ospf-1-area-0.0.0.0]network 1.1.1.1 0.0.0.0<br>[msr1-ospf-1-area-0.0.0.0]ne<br>[msr1-ospf-1-area-0.0.0.0]network 10.0.0.0 0.0.0.255<br>[msr1-ospf-1-area-0.0.0.0]qu</p><h3><a id="MSR2_25"></a>MSR2配置</h3><p>[msr2]int l 0<br>[msr2-LoopBack0]ip ad 2.2.2.2 32<br>[msr2]int g 0/0<br>[msr2-GigabitEthernet0/0]ip ad 10.0.0.2 24<br>[msr2-GigabitEthernet0/0]qu<br>[msr2]int g 0/1<br>[msr2-GigabitEthernet0/1]ip ad 20.0.0.1 24<br>[msr2-GigabitEthernet0/1]qu<br>[msr2]ospf 1 router-id 2.2.2.2<br>[msr2-ospf-1]ar 0</p><p>[msr2-ospf-1-area-0.0.0.0]network 2.2.2.2 0.0.0.0<br>[msr2-ospf-1-area-0.0.0.0]network 10.0.0.0 0.0.0.255<br>[msr2-ospf-1-area-0.0.0.0]network 20.0.0.0 0.0.0.255<br>[msr2-ospf-1-area-0.0.0.0]qu</p><h3><a id="MSR3_42"></a>MSR3配置</h3><p>[msr3]int l 0<br>[msr3-LoopBack0]ip ad 3.3.3.3 32<br>[msr3-LoopBack0]qu<br>[msr3]int g 0/0<br>[msr3-GigabitEthernet0/0]ip ad 20.0.0.2 24<br>[msr3-GigabitEthernet0/0]qu<br>[msr3]int g 0/1<br>[msr3-GigabitEthernet0/1]ip ad 30.0.0.1 24<br>[msr3-GigabitEthernet0/1]qu<br>[msr3]ospf 1 ro<br>[msr3]ospf 1 router-id 3.3.3.3<br>[msr3-ospf-1]ar 0<br>[msr3-ospf-1-area-0.0.0.0]network 3.3.3.3 0.0.0.0<br>[msr3-ospf-1-area-0.0.0.0]network 20.0.0.0 0.0.0.255</p><p>查看ospf邻居建立是否成功<br><img src="https://img-blog.csdnimg.cn/dc43f684490c4ac6acd2bfa308840d10.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9ac968a37f144af4a9815295b398c6ad.png" alt="在这里插入图片描述"><br>这里可以看到都成功了<br>查看路由是否学习成功<br><img src="https://img-blog.csdnimg.cn/2582cade68fb4338be308fc20627ad6f.png" alt="在这里插入图片描述"></p><p>建立IBGP MSR1与MSR3的对等体关系<br>[msr1]bgp 300<br>[msr1-bgp-default]peer 3.3.3.3 as-number 300<br>[msr1-bgp-default]peer 3.3.3.3 connect-interface LoopBack 0</p><p>[msr1-bgp-default]address-family ipv4<br>[msr1-bgp-default-ipv4]peer 3.3.3.3 enable<br><img src="https://img-blog.csdnimg.cn/bb2cd7fbfd2e4af0baf9c1b33024eb05.png" alt="在这里插入图片描述"></p><p>MSR3<br>[msr3]bgp 300<br>[msr3-bgp-default]peer 1.1.1.1 as-number 300<br>[msr3-bgp-default]peer 1.1.1.1 connect-interface LoopBack 0<br>[msr3-bgp-default]address-family ipv4<br>[msr3-bgp-default-ipv4]peer 1.1.1.1 enable<br><img src="https://img-blog.csdnimg.cn/3b5fa3cb045b4ef49f680e760912b43a.png" alt="在这里插入图片描述"><br>这里对等体关系已经建立成功了</p><p>开始建立EBGP</p><p><img src="https://img-blog.csdnimg.cn/848bd99a997f4cd8b862daad9b142ce2.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/820b4c0ca4784e1f83cb312abc8a83ea.png" alt="在这里插入图片描述"><br>这里已经和MSR4建立EBGP邻居成功了<br><img src="https://img-blog.csdnimg.cn/4131400188524209bb29297ed3bc2302.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ada3d7b118134b7aa5b16623e72d4f16.png" alt="在这里插入图片描述"><br>MSR5<br>[msr5]bgp 100<br>[msr5-bgp-default]peer 40.0.0.1 as 300<br>[msr5-bgp-default]ad ipv4<br>[msr5-bgp-default-ipv4]peer 40.0.0.1 enable</p><p><img src="https://img-blog.csdnimg.cn/bbfd74b729aa4ad980a76eeefc9427cf.png" alt="在这里插入图片描述"><br>跟MSR5的EBGP对等体也建立成功了</p><p>接下来引入EBGP的路由信息到中间的MSR2的路由上<br>[msr1]ospf 1<br>[msr1-ospf-1]import-route bgp</p><p>[msr3]ospf 1<br>[msr3-ospf-1]import-route bgp</p><p><img src="https://img-blog.csdnimg.cn/f3e8d8c9a20a40bc86f6b72124dff81d.png" alt="在这里插入图片描述"><br>可以看到路由引入到了MSR2的路由表中<br>实现了全网通</p></div></body></html>]]></content>
+      
+      
+      <categories>
+          
+          <category> EBG-IBGP-OSPF引入BGP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> H3C配置 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>

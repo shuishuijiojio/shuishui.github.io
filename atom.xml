@@ -106,4 +106,35 @@
     
   </entry>
   
+  <entry>
+    <title>网络通信</title>
+    <link href="https://shuishuijiojio.github.io/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/"/>
+    <id>https://shuishuijiojio.github.io/2022/11/23/H3C--IBGP%E5%AF%B9%E7%AD%89%E4%BD%93--EBGP%E5%AF%B9%E7%AD%89%E4%BD%93%20OSPF%E5%BC%95%E5%85%A5BGP%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C(%E5%B8%A6%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81)/</id>
+    <published>2022-11-23T09:33:52.000Z</published>
+    <updated>2022-11-28T14:25:24.037Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+ </summary>
+        
+      
+    
+    
+    
+    <category term="EBG-IBGP-OSPF引入BGP" scheme="https://shuishuijiojio.github.io/categories/EBG-IBGP-OSPF%E5%BC%95%E5%85%A5BGP/"/>
+    
+    
+    <category term="H3C配置" scheme="https://shuishuijiojio.github.io/tags/H3C%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
 </feed>
